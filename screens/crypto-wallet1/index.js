@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Image, Pressable } from "react-native";
+import { Text, View, StyleSheet, Image, Pressable, FlatList } from "react-native";
 
 const CryptoWallet = () => {
   const [nftList, setNftList] = useState([]);
@@ -38,13 +38,21 @@ const CryptoWallet = () => {
   };
 
   return <View style={styles.container}>
-      
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.subText}>Current Token</Text>
+          <Text style={styles.mainText}>1256 ETH</Text>
+        </View>
+        <Image source={require("./assets/cryptoIcon.png")} />
+      </View>
       <TabView tabTitles={["Stake", "Sell", "Buy"]} selected={selectedTab} onPress={x => setSelectedTab(x)} />
       <View style={styles.separator}>
         <Text>NFT List</Text>
         <Text>Select</Text>
       </View>
-      
+      <FlatList data={nftList} keyExtractor={item => item.id.toString()} renderItem={({
+      item
+    }) => <NFT item={item} selected={selectedNFTs.includes(item)} onPress={x => handleNFTSelect(x)} />} ListFooterComponent={() => <Button buttonText={"Bond NFT"} />} showsVerticalScrollIndicator={false} />
     </View>;
 };
 
